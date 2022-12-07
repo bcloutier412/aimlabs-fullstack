@@ -19,6 +19,7 @@ db = SQL("sqlite:///scores.db")
 
 @app.route("/")
 def index():
+    # Verify user is logged in
     if session.get("user") == None:
         return redirect("/login")
     return render_template("index.html")
@@ -26,6 +27,8 @@ def index():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+
+    # Client attempting to login
     if request.method == "POST":
 
         username = request.form.get("username")
@@ -42,23 +45,27 @@ def login():
             return render_template("apology.html")
 
         # Set the session to the current user
-        session['user'] = user[0]['id']
+        session['user_id'] = user[0]['id']
+        session['username'] = user[0]['username']
 
         return redirect("/")
     return render_template("login.html")
 
 @app.route("/logout", methods=["GET", "POST"])
 def logout():
+
     # log the user out
     if request.method == "POST":
-        session['user'] = None
+        session['user_id'] = None
         return redirect("/login")
 
-    session['user'] = None
+    session['user_id'] = None
     return redirect("/login")
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
+
+    # Client created a new account
     if request.method == "POST":
 
         username = request.form.get("username")
@@ -80,7 +87,8 @@ def register():
         new_user = db.execute("INSERT INTO users (username, password) VALUES (?, ?)", username, generate_password_hash(password))
     
         # Set the session to the current user
-        session['user'] = new_user
+        session['user_id'] = new_user
+        session['username'] = username
 
         return redirect("/")
     return render_template("register.html")
@@ -88,15 +96,22 @@ def register():
 
 @app.route("/scores", methods=["GET", "POST"])
 def scores():
-    # Make sure the user is logged in
+    # Verify user is logged in
     if session.get("user") == None:
         return ('User not logged in', 401)
+    
+    # Client is adding a score to the database
     if request.method == "POST":    
         
         # Get score and accuracy from request content
         request_content = request.get_json()
-        
-        # Add score to the database
+        score = request_content['score']
+        accuracy = request_content['accuracy']
 
+        user_id = session['user_id']
+        username = session['username']
+
+        # Add score to the database
+        db.execute("INSERT INTO scores (userID, score, accuracy, username) VALUES (?, ?, ?, ?)", user_id, score, accuracy, username)
         return ('', 204)
     return        
