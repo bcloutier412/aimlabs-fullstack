@@ -84,3 +84,19 @@ def register():
 
         return redirect("/")
     return render_template("register.html")
+
+
+@app.route("/scores", methods=["GET", "POST"])
+def scores():
+    # Make sure the user is logged in
+    if session.get("user") == None:
+        return ('User not logged in', 401)
+    if request.method == "POST":    
+        
+        # Get score and accuracy from request content
+        request_content = request.get_json()
+        
+        # Add score to the database
+
+        return ('', 204)
+    return        

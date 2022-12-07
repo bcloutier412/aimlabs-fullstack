@@ -155,6 +155,16 @@ var addData = function (chart, datasetIndex) {
   if (((chart.config.data.labels.length - 1) - chart.config.data.datasets[datasetIndex].data.length) < 0) {
     chart.config.data.labels.push("");
   };
+  fetch(URL + 'scores', { 
+    method:'POST',
+    body: JSON.stringify({
+      score: scoreInt,
+      accuracy: accuracy,
+    }),
+    headers: {
+      'Content-type': 'application/json'
+    } 
+  })
 };
 /*
   @desc: Updates the chart with the newly finished score.

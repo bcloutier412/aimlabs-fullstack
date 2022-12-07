@@ -18,3 +18,5 @@ const totalShotsStat = document.querySelector('#total-shots');
 const totalMissesStat = document.querySelector('#total-misses');
 const accuracyStat = document.querySelector('#accuracy-stat');
 const totalPointsStat = document.querySelector('#total-points');
+
+const URL = 'http://127.0.0.1:5000/';

@@ -130,7 +130,7 @@ var startTimer = function () {
         secondsElement.textContent = currentSecond;
       }
       startTimer();
-    }, 1000); // Change this variable to speed the game up
+    }, 10); // Change this variable to speed the game up
   }
 };
 /*
@@ -328,7 +328,7 @@ document.querySelector('#clear-data-btn').addEventListener('click', () => {
 })
 
 document.querySelector("#logout-btn").addEventListener('click', () => {
-  fetch('http://127.0.0.1:5000/logout', { method:'POST' })
+  fetch(URL + 'logout', { method:'POST' })
   .then(response => {
     if (response.redirected) {
       window.location.href = response.url
