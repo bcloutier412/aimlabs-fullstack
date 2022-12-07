@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aim Labs</title>
+    <link rel="stylesheet" href="/static/main.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+      crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kdam+Thmor+Pro&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+
+    <!-- Container that is displayed when the required screen width/height is met -->
+    <div id="fullscreen">
+      <header class="container-fluid">
+        <div class="row justify-content-center align-items-center">
+          <div class="col-4 horizontal-line"></div>
+          <div class="col-2 text-center" id="header-text">Dino's Aim Labs</div>
+          <div class="col-4 horizontal-line"></div>
+        </div>
+        <div class="display-off" id="game-stats">
+          <span id="minutes">1</span>:<span id="seconds">00</span> |
+          <span id="score">0</span> | <span id="accuracy">0</span>%
+        </div>
+      </header>
+
+      <!-- Houses Start/Target Size/Color/Time... Display is turned off upon starting game -->
+      <menu>
+        <div class="container-fluid" id="menu-btns">
+          <div class="row">
+            <div class="col text-center menu-btn py-2" id="start-btn">
+              START
+            </div>
+          </div>
+          <div class="row">
+            <div class="col text-center menu-btn py-2" id="target-size-cd cdbtn">
+              <select name="" id="target-size-select">
+                <option value="medium">TARGET SIZE</option>
+                <option value="hard">SMALL</option>
+                <option value="medium">MEDIUM</option>
+                <option value="easy">LARGE</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col text-center menu-btn py-2" id="color-btn">
+              COLOR<input type="color" id="color" value="#24B7C2" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col text-center menu-btn py-2" id="time-btn">
+              <select name="" id="minutes-select">
+                <option value="1">1 MINUTE</option>
+                <option value="2">2 MINUTES</option>
+                <option value="3">3 MINUTES</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col text-center menu-btn py-2" id="clear-data-btn">
+              CLEAR DATA
+            </div>
+          </div>
+          <div class="row">
+            <div class="col text-center menu-btn py-2" id="logout-btn">
+              LOGOUT
+            </div>
+          </div>
+        </div>
+      </menu>
+
+      <!-- Parent element where the target elements are appended to -->
+      <main class="display-off"></main>
+
+      <!-- Countdown Element-->
+      <div id="countdown" class="display-off">3</div>
+
+      <!-- Houses Leaderboard/Line Chart/Stats/Continue Btn -->
+      <div id="endgame-stats-container" class="display-off">
+        <div id="leaderboard">
+          <header class="stat-header-text"><b>LEADERBOARD</b></header>
+          <ul class="p-0">
+            <li>Dino: 133474pts - 91.6%</li>
+            <li>Dino: 124007pts - 97.6%</li>
+            <li>Dino: 122521pts - 98.4%</li>
+            <li>Dino: 115556pts - 87.3%</li>
+            <li>Dino: 115333pts - 91.6%</li>
+            <li>Dino: 112030pts - 98.6%</li>
+            <li>Dino: 110535pts - 92.6%</li>
+            <li>Aish: 76416pts - 96.3%</li>
+          </ul>
+        </div>
+        <!-- Three Charts that we will manipulate the display off  -->
+        <div id="chart1" class="">
+          <header class="stat-header-text"><b>1 MINUTE PROGRESSION</b></header>
+          <canvas id="oneMinuteChart" width="200" height="150"></canvas>
+        </div>
+        <div id="chart2" class="">
+          <header class="stat-header-text"><b>2 MINUTE PROGRESSION</b></header>
+          <canvas id="twoMinuteChart" width="200" height="150"></canvas>
+        </div>
+        <div id="chart3" class="">
+          <header class="stat-header-text"><b>3 MINUTE PROGRESSION</b></header>
+          <canvas id="threeMinuteChart" width="200" height="150"></canvas>
+        </div>
+
+        <div id="endgame-stats">
+          <header class="stat-header-text"><b>STATS</b></header>
+          <ul class="px-0">
+            <li><b>Shots: </b><span id="total-shots">0</span></li>
+            <li><b>Misses: </b><span id="total-misses">0</span></li>
+            <li><b>Accuracy: </b><span id="accuracy-stat">0</span>%</li>
+            <li><b>Points: </b><span id="total-points">160000</span></li>
+          </ul>
+        </div>
+        <button id="continue-btn">CONTINUE</button>
+      </div>
+    </div>
+
+    <!-- Container that is displayed when screen is too small -->
+    <div id="smallerscreen">
+      This Screensize is not supported. Please open application via
+      desktop/laptop/Tablet
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/static/domselectors.js"></script>
+    <script src="/static/chartjs.js"></script>
+    <script src="/static/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,247 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  cursor: crosshair;
+  font-family: 'Kdam Thmor Pro', sans-serif;
+}
+body {
+  height: 100vh;
+  width: 99.1vw;
+  position: relative;
+  background-size: 40px 40px;
+  background-image: radial-gradient(circle, #6c757d 1px, rgba(0, 0, 0, 0) 1px);
+}
+#fullscreen {
+  height: inherit;
+  width: inherit;
+  position: relative;
+}
+#horizontal-line {
+    position: absolute;
+    border-bottom: 3px solid red;
+    height: 70px;
+    width: 100%;
+}
+#vertical-line {
+    position: absolute;
+    width: 140px;
+    height: 140px;
+    border-right: 3px solid red;
+}
+header {
+  margin-top: 19px;
+  position: relative;
+}
+#header-text {
+  font-size: 2rem;
+  font-weight: 700;
+  /* padding: 8px 32px; */
+  background-color: white;
+  color: #4a4e69;
+  text-shadow: 1.2px 1.2px 0px #14213d;
+}
+
+.horizontal-line {
+  height: 2px;
+  background-color: #006d77;
+}
+#game-stats {
+  text-align: center;
+}
+menu {
+  width: 24%;
+  margin: 20vh auto;
+}
+#menu-btns .menu-btn {
+  font-size: 2rem;
+  list-style-type: none;
+  /* border: 3px solid #42999b; */
+  /* margin-top: 13px; */
+  width: auto;
+  background: white;
+}
+
+#menu-btns .menu-btn:hover {
+  background-color: #b8dedc;
+}
+#start-btn {
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
+}
+
+#logout-btn {
+  border-bottom-left-radius: 7px;
+  border-bottom-right-radius: 7px;
+}
+
+#target-size-select {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  border: none;
+  background-color: transparent;
+}
+#minutes-select {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  border: none;
+  background-color: transparent;
+}
+#color {
+  width: 30px;
+  height: 29px;
+  margin-left: 15px;
+  border: none;
+  border-radius: 50px;
+}
+main {
+  height: 90%;
+  width: 80%;
+  margin: 0 auto;
+  position: relative;
+  transition: filter 1s;
+  /* display: none; */
+}
+
+main .target {
+  /* height: 48px;
+  width: 48px; */
+  border: 1px solid black;
+  border-radius: 50px;
+  /* background: #ff4d6d; */
+  box-shadow: 2px 2px 0px rgba(20, 33, 61, .7);
+  position: absolute;
+}
+#endgame-stats-container {
+  position: absolute;
+  justify-content: center;
+  top: 46%;
+  /* left: 25.45%; */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  gap: 20px;
+  transition: display 1s;
+  width: 1323px;
+  flex-wrap: wrap;
+}
+#endgame-stats-container div {
+  height: 400px;
+  width: 400px;
+  border: 3px solid #b8dedc;
+  flex-basis: 30%;
+}
+.stat-header-text {
+  text-align: center;
+  width: 50%;
+  margin-top: 10px;
+  margin: 10px auto;
+  border-bottom: 1px solid #83c5be;
+  font-size: 1.5rem;
+}
+#endgame-stats-container button {
+  background-color: transparent;
+  padding: 5px 40px;
+  border: 2px solid #006d77;
+  font-size: 1.7rem;
+}
+#endgame-stats-container button:hover {
+  background-color: #83c5be;
+  cursor: crosshair;
+}
+#leaderboard {
+  overflow-y: hidden;
+}
+#leaderboard:hover {
+  overflow-y: overlay;
+}
+#leaderboard::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+
+#leaderboard::-webkit-scrollbar:vertical {
+  width: 11px;
+}
+#leaderboard::-webkit-scrollbar:horizontal {
+  height: 11px;
+}
+#leaderboard::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  border: 2px solid white; /* should match background, can't be transparent */
+  background-color: rgba(0, 0, 0, .5);
+}
+#leaderboard ul li {
+  list-style: none;
+  display: block;
+  width: 90%;
+  margin: 3px auto;
+  text-align: center;
+  font-size: 1.25rem;
+}
+#leaderboard ul li:nth-child(odd) {
+  background: #83c5be;
+}
+#leaderboard ul li:nth-child(even) {
+  background: #b8dedc;
+}
+#endgame-stats {
+  letter-spacing: 1px;
+}
+#endgame-stats ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+#endgame-stats ul li {
+  list-style: none;
+  display: inline-block;
+  text-align: center;
+  width: 50%;
+  margin-top: 10%;
+  margin-bottom: 15%;
+  font-size: 1.25rem;
+}
+#endgame-stats ul li span {
+  color: #006d77;
+}
+#countdown {
+  position: absolute;
+  font-size: 10rem;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.display-off {
+  display: none;
+}
+
+.display-flex {
+  display: flex;
+}
+
+#smallerscreen {
+  display: none;
+  text-align: center;
+  margin-top: 60px;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+@media (max-width: 967px) {
+  #fullscreen {
+    display: none;
+  }
+  #smallerscreen {
+    display: block;
+  }
+}
+
+.blur-effect {
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);
+}
+
