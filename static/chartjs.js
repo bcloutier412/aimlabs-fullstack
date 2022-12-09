@@ -102,19 +102,6 @@ let config3 = {
   },
 };
 
-/*  
-  @desc: IIFE to populate the chart.js configs with the game data taken from the local storage
-*/
-(function initializeDataFromLocalStorage() {
-  if (localStorage.getItem('isInitialized')) {
-    loadConfig1 = JSON.parse(localStorage.getItem('config1'))
-    loadConfig2 = JSON.parse(localStorage.getItem('config2'))
-    loadConfig3 = JSON.parse(localStorage.getItem('config3'))
-    config1 = loadConfig1._config
-    config2 = loadConfig2._config
-    config3 = loadConfig3._config
-  }
-})();
 
 /*
   @desc: Initializes 3 different charts
@@ -122,6 +109,34 @@ let config3 = {
 const oneMinuteChart = new Chart(document.getElementById("oneMinuteChart"), config1);
 const twoMinuteChart = new Chart(document.getElementById("twoMinuteChart"), config2);
 const threeMinuteChart = new Chart(document.getElementById("threeMinuteChart"), config3);
+
+/*
+  @desc: populate the datasets from the database
+*/
+fetch(URL + 'scores')
+.then(response => response.json())
+.then(data => {
+  for (const score of data) {
+    let chart;
+
+    if (score['minutes'] === 1) {
+      chart = oneMinuteChart
+    } else if (score['minutes'] === 2) {
+      chart = twoMinuteChart
+    } else if (score['minutes'] === 3) {
+      chart = threeMinuteChart
+    };
+
+    if (!chart.config.data.datasets[score['datasetIndex']].data.length) {
+      chart.config.data.datasets[score['datasetIndex']].data.push(0);
+    };
+
+    chart.config.data.datasets[score['datasetIndex']].data.push(score['score']);
+    if (((chart.config.data.labels.length - 1) - chart.config.data.datasets[score['datasetIndex']].data.length) < 0) {
+    chart.config.data.labels.push("");
+  };
+  }
+})
 
 const chart1Display = document.querySelector('#chart1');
 const chart2Display = document.querySelector('#chart2');
@@ -144,7 +159,7 @@ var setAllChartDisplayToOff = function() {
 /*
   @desc: Adds data to the correct minute chart and to the right datasetindex.
 */
-var addData = function (chart, datasetIndex) {
+var addData = async function (chart, datasetIndex) {
   if (!chart.config.data.datasets[datasetIndex].data.length) {
     chart.config.data.datasets[datasetIndex].data.push(0);
   };
@@ -155,30 +170,47 @@ var addData = function (chart, datasetIndex) {
   if (((chart.config.data.labels.length - 1) - chart.config.data.datasets[datasetIndex].data.length) < 0) {
     chart.config.data.labels.push("");
   };
-  fetch(URL + 'scores', { 
+  /*
+    @desc: adding the score to the database
+  */
+  await fetch(URL + 'scores', { 
     method:'POST',
     body: JSON.stringify({
       score: scoreInt,
       accuracy: accuracy,
+      datasetIndex: datasetIndex,
+      minutes: minutes
     }),
     headers: {
       'Content-type': 'application/json'
     } 
+  })
+  .then(response => response.json())
+  .then(data => {
+    leaderboard = document.querySelector("#leaderboardul");
+    while (leaderboard.firstChild) {
+      leaderboard.removeChild(leaderboard.firstChild)
+    }
+    for (const score of data) {
+      const node = document.createElement("li");
+      node.innerHTML = `<li style="margin: 0; width: 100%;">${score['username']}: ${score['score']}pts - ${score['accuracy']}%</li>`
+      leaderboard.appendChild(node)
+    }
   })
 };
 /*
   @desc: Updates the chart with the newly finished score.
 */
 var updateChart = function () {
-  let difficulity = targetSizeSelect.value;
+  let difficulty = targetSizeSelect.value;
   let datasetIndex;
   let chart;
   setAllChartDisplayToOff();
-  if (difficulity === "hard") {
+  if (difficulty === "hard") {
     datasetIndex = 0;
-  } else if (difficulity === "medium") {
+  } else if (difficulty === "medium") {
     datasetIndex = 1;
-  } else if (difficulity === "easy") {
+  } else if (difficulty === "easy") {
     datasetIndex = 2;
   };
   if (minutes === 1) {
@@ -194,16 +226,3 @@ var updateChart = function () {
   addData(chart, datasetIndex);
   chart.update();
 };
-
-/*
-  @desc: Saves the config objects to local storage to save the game score data.
-*/
-var saveToLocalStorage =function() {
-  const saveConfig1 = JSON.stringify(oneMinuteChart.config);
-  const saveConfig2 = JSON.stringify(twoMinuteChart.config);
-  const saveConfig3 = JSON.stringify(threeMinuteChart.config);
-  localStorage.setItem('config1', saveConfig1);
-  localStorage.setItem('config2', saveConfig2);
-  localStorage.setItem('config3', saveConfig3);
-  localStorage.setItem('isInitialized', true);
-}

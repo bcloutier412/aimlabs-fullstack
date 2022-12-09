@@ -109,7 +109,6 @@ var startTimer = function () {
         updateChart();
         setDisplayToDefault(endGameStatsContainer);
         endGameStatsContainer.classList.add("display-flex");
-        saveToLocalStorage()
       }, 1000);
     }, 1000);
     return;
@@ -130,7 +129,7 @@ var startTimer = function () {
         secondsElement.textContent = currentSecond;
       }
       startTimer();
-    }, 10); // Change this variable to speed the game up
+    }, 100); // Change this variable to speed the game up
   }
 };
 /*
