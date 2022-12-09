@@ -113,7 +113,7 @@ def scores():
 
         # Add score to the database
         db.execute("INSERT INTO scores (userID, score, accuracy, username, datasetIndex, minutes) VALUES (?, ?, ?, ?, ?, ?)", user_id, score, accuracy, username, datasetIndex, minutes)
-        leaderboard_data = db.execute("SELECT score, accuracy, username FROM scores WHERE minutes = ? ORDER BY score DESC LIMIT 15", minutes)
+        leaderboard_data = db.execute("SELECT score, accuracy, username FROM scores WHERE minutes = ? AND datasetIndex = ? ORDER BY score DESC LIMIT 15", minutes, datasetIndex)
     
         return jsonify(leaderboard_data)
 
