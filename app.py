@@ -125,7 +125,8 @@ def scores():
 @app.route("/deletescores", methods=["POST"])
 def deletescores():
     # Verify user is logged in
-    if session.get("user") == None:
+    if session.get("user_id") == None:
         return ('User not logged in', 401)
     
-    return ('', 204)
+    db.execute("DELETE FROM scores WHERE userId = ?", session['user_id'])
+    return redirect("/")

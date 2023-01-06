@@ -322,8 +322,15 @@ document.querySelector('#continue-btn').addEventListener("click", resetToGameMen
 
 //Clears the localStorage and reloads the game
 document.querySelector('#clear-data-btn').addEventListener('click', () => {
-  window.localStorage.clear()
-  window.location.reload()
+  fetch(URL + 'deletescores', { method: 'POST'})
+  .then(response => {
+    if (response.redirected) {
+      window.location.href = response.url
+    }
+  })
+  .catch(err => {
+    console.log(err)
+  })
 })
 
 document.querySelector("#logout-btn").addEventListener('click', () => {
