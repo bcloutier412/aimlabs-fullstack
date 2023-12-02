@@ -130,3 +130,4 @@ def deletescores():
     
     db.execute("DELETE FROM scores WHERE userId = ?", session['user_id'])
     return redirect("/")
+

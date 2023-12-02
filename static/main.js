@@ -21,7 +21,7 @@ let inPlay = false;
       This means multiple audioobjects can be played at once.
 */
 var playTargetAudio = function () {
-  let audioObj = new Audio("/static/audio/firecracker.mp3");
+  let audioObj = new Audio("/static/firecracker.mp3");
   audioObj.volume = 0.2;
   audioObj.play();
 };
@@ -97,7 +97,7 @@ var startTimer = function () {
   currentSecond = parseInt(secondsElement.textContent);
   if (currentSecond === 0 && currentMinute === 0) {
     inPlay = false;
-    let audioObjStop = new Audio("/static/audio/go.mp3");
+    let audioObjStop = new Audio("/static/go.mp3");
     audioObjStop.play();
     countdown.textContent = "STOP!";
     setDisplayToDefault(countdown);
@@ -129,7 +129,7 @@ var startTimer = function () {
         secondsElement.textContent = currentSecond;
       }
       startTimer();
-    }, 100); // Change this variable to speed the game up
+    }, 1000); // Change this variable to speed the game up
   }
 };
 /*
@@ -138,8 +138,8 @@ once the count down function is done it starts the game timer and sets the inPla
 */
 var startCountdownAndTimer = function () {
   setDisplayToDefault(countdown);
-  let audioObj = new Audio("/static/audio/countdown.mp3");
-  let audioObjGo = new Audio("/static/audio/go.mp3");
+  let audioObj = new Audio("/static/countdown.mp3");
+  let audioObjGo = new Audio("/static/go.mp3");
   audioObj.volume = 0.2;
   audioObjGo.volume = 0.4;
   audioObj.play();
@@ -312,7 +312,7 @@ minutesSelect.addEventListener("change", function () {
 */
 for (let element of menubtns.children) {
   element.firstElementChild.addEventListener("mouseenter", () => {
-    let audioObj = new Audio("/static/audio/menubtn.mp3");
+    let audioObj = new Audio("/static/menubtn.mp3");
     audioObj.volume = 0.05;
     audioObj.play();
   });
@@ -322,25 +322,23 @@ document.querySelector('#continue-btn').addEventListener("click", resetToGameMen
 
 //Clears the localStorage and reloads the game
 document.querySelector('#clear-data-btn').addEventListener('click', () => {
-  fetch(URL + 'deletescores', { method: 'POST'})
-  .then(response => {
-    if (response.redirected) {
-      window.location.href = response.url
-    }
-  })
-  .catch(err => {
-    console.log(err)
-  })
+  fetch('deletescores', { method: 'POST' })
+    .then(response => {
+      if (response.redirected) {
+        window.location.href = response.url
+      }
+    })
+    .catch(err => {
+      console.log(err)
+    })
 })
 
 document.querySelector("#logout-btn").addEventListener('click', () => {
-  fetch(URL + 'logout', { method:'POST' })
-  .then(response => {
-    if (response.redirected) {
-      window.location.href = response.url
-    }
-  })
-  .catch(err => {
-    console.log(err)
-  })
+  try {
+    fetch('logout', { method: 'POST' })
+    window.location.href = '/login'
+  } catch (error) {
+    console.log(error)
+    window.location.href = '/login'
+  }
 }) 

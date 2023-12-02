@@ -113,7 +113,7 @@ const threeMinuteChart = new Chart(document.getElementById("threeMinuteChart"), 
 /*
   @desc: populate the datasets from the database
 */
-fetch(URL + 'scores')
+fetch('scores')
 .then(response => response.json())
 .then(data => {
   for (const score of data) {
@@ -172,8 +172,8 @@ var addData = async function (chart, datasetIndex) {
   };
   /*
     @desc: adding the score to the database
-  */
-  await fetch(URL + 'scores', { 
+  */  
+  await fetch('scores', { 
     method:'POST',
     body: JSON.stringify({
       score: scoreInt,

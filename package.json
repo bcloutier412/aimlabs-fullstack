@@ -1,0 +1,25 @@
+{
+  "name": "aimlabs-fullstack",
+  "version": "1.0.0",
+  "description": "This application was developed to train FPS, Esports players reflexes, muscle memory, reaction time, and mouse movement.  The app consists of an aim trainer called gridshot where the user has to shoot 7 different targets. To gain the most points the user should be consistent and quick. I integrated different features so that the user can customize their game. They can change target size, color and game duration. User authentication was implemented so that users scores are saved and can be tracked through a dedicated end of game statistics section. Currently the app isn't hosted since Heroku stopped offering free database hosting. The Non fullstack application can be found here -> https://aim-labs.netlify.app/ (uses cookies to score user scores)",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "mongoose": "^7.6.3",
+    "passport": "^0.6.0",
+    "passport-local": "^1.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
