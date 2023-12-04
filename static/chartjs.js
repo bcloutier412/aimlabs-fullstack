@@ -136,6 +136,8 @@ fetch('scores')
     chart.config.data.labels.push("");
   };
   }
+}).catch((error) => {
+  console.log(error)
 })
 
 const chart1Display = document.querySelector('#chart1');
@@ -159,7 +161,7 @@ var setAllChartDisplayToOff = function() {
 /*
   @desc: Adds data to the correct minute chart and to the right datasetindex.
 */
-var addData = async function (chart, datasetIndex) {
+var addData = function (chart, datasetIndex) {
   if (!chart.config.data.datasets[datasetIndex].data.length) {
     chart.config.data.datasets[datasetIndex].data.push(0);
   };
@@ -173,7 +175,7 @@ var addData = async function (chart, datasetIndex) {
   /*
     @desc: adding the score to the database
   */  
-  await fetch('scores', { 
+  fetch('scores', { 
     method:'POST',
     body: JSON.stringify({
       score: scoreInt,
@@ -196,6 +198,9 @@ var addData = async function (chart, datasetIndex) {
       node.innerHTML = `<li style="margin: 0; width: 100%;">${score['username']}: ${score['score']}pts - ${score['accuracy']}%</li>`
       leaderboard.appendChild(node)
     }
+  })
+  .catch(error => {
+    console.log(error)
   })
 };
 /*
