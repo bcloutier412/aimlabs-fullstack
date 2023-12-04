@@ -164,7 +164,7 @@ app.post('/scores', checkAuthenticated, async (request, response) => {
     })
     try {
         await newScore.save()
-        const leaderboard_data = await Score.find({}).sort({ scoreNumber: -1 }).limit(15)
+        const leaderboard_data = await Score.find({ minutes: minutes, datasetIndex: datasetIndex }).sort({ score: -1 }).limit(15)
         response.send(leaderboard_data)
     } catch (error) {
         console.log(error)
